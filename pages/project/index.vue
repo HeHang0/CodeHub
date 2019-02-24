@@ -1,28 +1,27 @@
 <template>
 	<view>
+		<!-- #ifdef MP -->
 		<view class="header">
-			<view class="input-view">
-				<uni-icon type="search" size="22" color="#666666"></uni-icon>
-				<input confirm-type="search" @confirm="confirm" class="input" type="text" placeholder="输入搜索关键词" />
+			<view class="logo-white-view">
+				<image src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTUxMDI1OTQzNDgwIiBjbGFzcz0iaWNvbiIgc3R5bGU9IiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjExMDAiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PC9zdHlsZT48L2RlZnM+PHBhdGggZD0iTTk1MC45MzAyODYgNTEycTAgMTQzLjQzMzE0My04My43NDg1NzEgMjU3Ljk3NDg1N3QtMjE2LjI4MzQyOSAxNTguNTczNzE0cS0xNS40MzMxNDMgMi44NTI1NzEtMjIuNjAxMTQzLTQuMDIyODU3dC03LjE2OC0xNy4xMTU0MjlsMC0xMjAuNTM5NDI5cTAtNTUuNDQyMjg2LTI5LjY5Ni04MS4xMTU0MjkgMzIuNTQ4NTcxLTMuNDM3NzE0IDU4LjU4NzQyOS0xMC4zMTMxNDN0NTMuNjg2ODU3LTIyLjMwODU3MSA0Ni4yOTk0MjktMzguMDM0Mjg2IDMwLjI4MTE0My01OS45NzcxNDMgMTEuNzAyODU3LTg2LjAxNnEwLTY5LjEyLTQ1LjEyOTE0My0xMTcuNjg2ODU3IDIxLjEzODI4Ni01Mi4wMDQ1NzEtNC41MzQ4NTctMTE2LjU4OTcxNC0xNi4wMTgyODYtNS4xMi00Ni4yOTk0MjkgNi4yOTAyODZ0LTUyLjU4OTcxNCAyNS4xNjExNDNsLTIxLjcyMzQyOSAxMy42Nzc3MTRxLTUzLjE3NDg1Ny0xNC44NDgtMTA5LjcxNDI4Ni0xNC44NDh0LTEwOS43MTQyODYgMTQuODQ4cS05LjE0Mjg1Ny02LjI5MDI4Ni0yNC4yODM0MjktMTUuNDMzMTQzdC00Ny42ODkxNDMtMjIuMDE2LTQ5LjE1Mi03LjY4cS0yNS4xNjExNDMgNjQuNTg1MTQzLTQuMDIyODU3IDExNi41ODk3MTQtNDUuMTI5MTQzIDQ4LjU2Njg1Ny00NS4xMjkxNDMgMTE3LjY4Njg1NyAwIDQ4LjU2Njg1NyAxMS43MDI4NTcgODUuNzIzNDI5dDI5Ljk4ODU3MSA1OS45NzcxNDMgNDYuMDA2ODU3IDM4LjI1MzcxNCA1My42ODY4NTcgMjIuMzA4NTcxIDU4LjU4NzQyOSAxMC4zMTMxNDNxLTIyLjgyMDU3MSAyMC41NTMxNDMtMjguMDEzNzE0IDU4Ljg4LTExLjk5NTQyOSA1LjcwNTE0My0yNS43NDYyODYgOC41NTc3MTR0LTMyLjU0ODU3MSAyLjg1MjU3MS0zNy40NDkxNDMtMTIuMjg4LTMxLjc0NC0zNS42OTM3MTRxLTEwLjgyNTE0My0xOC4yODU3MTQtMjcuNzIxMTQzLTI5LjY5NnQtMjguMzA2Mjg2LTEzLjY3NzcxNGwtMTEuNDEwMjg2LTEuNjgyMjg2cS0xMS45OTU0MjkgMC0xNi42MDM0MjkgMi41NnQtMi44NTI1NzEgNi41ODI4NTcgNS4xMiA3Ljk3MjU3MSA3LjQ2MDU3MSA2Ljg3NTQyOWw0LjAyMjg1NyAyLjg1MjU3MXExMi41ODA1NzEgNS43MDUxNDMgMjQuODY4NTcxIDIxLjcyMzQyOXQxNy45OTMxNDMgMjkuMTEwODU3bDUuNzA1MTQzIDEzLjE2NTcxNHE3LjQ2MDU3MSAyMS43MjM0MjkgMjUuMTYxMTQzIDM1LjEwODU3MXQzOC4yNTM3MTQgMTcuMTE1NDI5IDM5LjcxNjU3MSA0LjAyMjg1NyAzMS43NDQtMS45NzQ4NTdsMTMuMTY1NzE0LTIuMjY3NDI5cTAgMjEuNzIzNDI5IDAuMjkyNTcxIDUwLjgzNDI4NnQwLjI5MjU3MSAzMC44NjYyODZxMCAxMC4zMTMxNDMtNy40NjA1NzEgMTcuMTE1NDI5dC0yMi44MjA1NzEgNC4wMjI4NTdxLTEzMi41MzQ4NTctNDQuMDMyLTIxNi4yODM0MjktMTU4LjU3MzcxNHQtODMuNzQ4NTcxLTI1Ny45NzQ4NTdxMC0xMTkuNDQyMjg2IDU4Ljg4LTIyMC4zMDYyODZ0MTU5Ljc0NC0xNTkuNzQ0IDIyMC4zMDYyODYtNTguODggMjIwLjMwNjI4NiA1OC44OCAxNTkuNzQ0IDE1OS43NDQgNTguODggMjIwLjMwNjI4NnoiIHAtaWQ9IjExMDEiIGZpbGw9IiNGRkZGRkYiPjwvcGF0aD48L3N2Zz4="></image>
+				<view class="icon" @click="showDrawer">
+					<uni-icon type="bars" color="#C8C9CA" :size="22"></uni-icon>
+				</view>
 			</view>
-			<!-- #ifdef MP -->
-			<view class="icon" @click="showDrawer">
-				<uni-icon type="bars" color="#666666" :size="22"></uni-icon>
-			</view>
-			<!-- #endif -->
 		</view>
-		<view class="uni-padding-wrap" style="margin-top:30upx;word-break:break-all">
+		<!-- #endif -->
+		<view class="uni-padding-wrap" style="word-break:break-all;background: #FAFBFC;padding:16rpx 30rpx;border-bottom:1px #E9ECEF solid;">
 			<view class="uni-media-list">
 				<view class="user-info-avater">
 					<image :src="userData.avatar_url"></image>
 				</view>
 				<view class="uni-media-list-body ha">
-					<view class="uni-media-list-text-top">{{userData.name}}</view>
+					<view class="uni-media-list-text-top media-user-name">{{userData.name}}</view>
 					<view class="uni-media-list-text-bottom uni-ellipsis">{{userData.login}}</view>
 					<view class="uni-media-list-text-bottom uni-ellipsis">{{userData.login}}</view>
 					<view class="uni-media-list-text-bottom uni-ellipsis">
 						<uni-icon type="email" size="20" color="#666666"></uni-icon>
-						{{' '+userData.login}}
+						{{' '+userData.email}}
 					</view>
 				</view>
 			</view>
@@ -172,8 +171,9 @@
 	.header {
 		display: flex;
 		flex-direction: row;
-		padding: 10px 15px;
+		padding-bottom: 5px;
 		align-items: center;
+		background: #323232;
 	}
 	
 	.drawer-back{
@@ -213,27 +213,41 @@
 	}
 	
 	.drawer-user-name{
-		color: white;
+		color: #C8C9CA;
 		float: left;
 		margin:50rpx;
 	}
 	
+	.media-user-name {
+		font-size:35rpx;
+		font-weight:900;
+		margin-top:5rpx;
+	}
+
+	
 	.uni-list{
 		background-color: transparent;
-		color: white;
+		color: #C8C9CA;
 	}
 	.uni-list-cell view{
 		line-height:48rpx;
 	}
-	.input-view {
+	.logo-white-view {
 		display: flex;
 		align-items: center;
 		flex-direction: row;
-		background-color: #e7e7e7;
-		height: 30px;
-		border-radius: 15px;
-		padding: 0 10px;
+		height: 60rpx;
+		padding: 0 5px;
 		flex: 1;
+	}
+	.logo-white-view image{
+		width: 65rpx;
+		height: 65rpx;
+		margin:0 auto;
+	}
+	.logo-white-view .icon{
+		position: absolute;
+		right: 10px;
 	}
 
 	.input {
