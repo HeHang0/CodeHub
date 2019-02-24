@@ -1,0 +1,30 @@
+{
+    "pages" : [
+        {
+            "path" : "pages/login/index",
+            "style" : {
+                "navigationBarTitleText" : "登录",
+                "app-plus" : {
+                    "bounce" : "none"
+                }
+            }
+        },
+        {
+            "path" : "pages/project/index",
+            "style" : {
+                "navigationBarTitleText" : "项目",
+				"navigationBarTextStyle" : "white",
+				"navigationBarBackgroundColor": "#323232"
+			}
+        }
+    ],
+    "globalStyle" : {
+        "navigationBarTextStyle" : "black",
+        "navigationBarTitleText" : "CodeHub",
+        "navigationBarBackgroundColor" : "#FAFBFC",
+        "backgroundColor" : "#FAFBFC",
+        "app-plus" : {
+            "bounce" : "none"
+        }
+    }
+}
