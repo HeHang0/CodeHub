@@ -103,11 +103,7 @@
 		uni.getStorage({
 			key: 'Authorization',
 			success: (res) => {
-				console.info(res)
 				authorization = res.data
-			},
-			complete() {
-				console.log(authorization)
 			}
 		});
 	const isApp = false
