@@ -14,7 +14,8 @@
             "style" : {
                 "navigationBarTitleText" : "项目",
 				"navigationBarTextStyle" : "white",
-				"navigationBarBackgroundColor": "#323232"
+				"navigationBarBackgroundColor": "#323232",
+				"enablePullDownRefresh": true  
 			}
         }
     ],

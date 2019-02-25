@@ -28,6 +28,7 @@
 
 <script>
 	import { Base64 } from 'js-base64';
+
 	export default {
 		data() {
 			return {
@@ -48,14 +49,19 @@
 						return
 					}
 				this.login.loading = true
+				let authorization = 'Basic '+Base64.encode(`${this.login.username}:${this.login.password}`)
 				uni.request({
 					url: 'https://api.github.com/user',
 					header: {
-						'Authorization':  'Basic '+Base64.encode(`${this.login.username}:${this.login.password}`)
+						'Authorization': authorization
 					},
 					success: (res) => {
 						if(res && res.data && res.data.login){
 							this.loginimg = res.data.avatar_url
+							uni.setStorage({
+								key: 'Authorization',
+								data: authorization
+							});
 							uni.setStorage({
 								key: 'userdata',
 								data: res.data,
@@ -82,6 +88,13 @@
 			}
 		},
 		mounted() {
+			var pages = getCurrentPages();
+			var page = pages[pages.length - 1];
+			if(page.options.logout) {
+				this.login.loaded = true
+				uni.clearStorage()
+				return
+			}
 			uni.getStorage({
 				key: 'userdata',
 				success: (res) => {
