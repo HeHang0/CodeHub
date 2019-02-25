@@ -329,9 +329,6 @@
 		},
 		onPullDownRefresh() {
 			this.getEvents({
-				success:() => {
-					uni.showToast({title:'加载成功了哟！', icon:'none'})
-				},
 				fail: () => {
 					uni.showToast({title:'刷新失败了！', icon:'none'})
 				},
