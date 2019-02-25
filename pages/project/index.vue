@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style="height: 100%">
 		<!-- #ifdef MP -->
 		<view class="header">
 			<view class="logo-white-view">
@@ -10,18 +10,64 @@
 			</view>
 		</view>
 		<!-- #endif -->
-		<view class="uni-padding-wrap" style="word-break:break-all;background: #FAFBFC;padding:16rpx 30rpx;border-bottom:1px #E9ECEF solid;">
-			<view class="uni-media-list">
-				<view class="user-info-avater">
-					<image :src="userData.avatar_url"></image>
+		
+		<view class="uni-padding-wrap">
+			<view class="uni-card">
+				<view class="uni-card-content">
+					<view class="uni-card-content-inner">
+						<view class="uni-media-list">
+							<view class="user-info-avater">
+								<image :src="userData.avatar_url"></image>
+							</view>
+							<view class="uni-media-list-body ha">
+								<view class="uni-media-list-text-top media-user-name">{{userData.name}}</view>
+								<view class="uni-media-list-text-bottom uni-ellipsis">{{userData.login}}</view>
+								<view class="uni-media-list-text-bottom uni-ellipsis">{{userData.login}}</view>
+								<view class="uni-media-list-text-bottom uni-ellipsis">
+									<uni-icon type="email" size="20" color="#666666"></uni-icon>
+									{{' '+userData.email}}
+								</view>
+							</view>
+						</view>
+					</view>
 				</view>
-				<view class="uni-media-list-body ha">
-					<view class="uni-media-list-text-top media-user-name">{{userData.name}}</view>
-					<view class="uni-media-list-text-bottom uni-ellipsis">{{userData.login}}</view>
-					<view class="uni-media-list-text-bottom uni-ellipsis">{{userData.login}}</view>
-					<view class="uni-media-list-text-bottom uni-ellipsis">
-						<uni-icon type="email" size="20" color="#666666"></uni-icon>
-						{{' '+userData.email}}
+			</view>
+			<view class="uni-card">
+				<view class="uni-card-content">
+					<view class="uni-card-content-inner">
+						<view class="uni-title">
+							创建时间：
+							<text>{{userData.created_at}}</text>
+						</view>
+						<view class="uni-title">
+							更新时间：
+							<text>{{userData.updated_at}}</text>
+						</view>
+						<view class="uni-title">
+							空间占用：
+							<text>{{userData.disk_usage}} KB</text>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="uni-card">
+				<view class="uni-card-content">
+					<view class="uni-card-content-inner">
+						<view class="uni-timeline">
+							<view class="uni-timeline-item" 
+							:class="{'uni-timeline-first-item': (index==0 ? true : false),
+									'uni-timeline-last-item': (index==events.length-1 ? true : false)}" 
+								v-for="(item, index) in events" :key="item.id">
+								<view class="uni-timeline-item-keynode">{{item.updateDate}}</view>
+								<view class="uni-timeline-item-divider"></view>
+								<view class="uni-timeline-item-content">
+									<view class="uni-title">
+										【{{item.type}}】{{item.event}}
+										\n<text>{{item.subEvent ? '\n'+item.subEvent : ""}}</text>
+									</view>
+								</view>
+							</view>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -32,13 +78,15 @@
 					<image :src="userData.avatar_url" mode="aspectFit" class="logoimg"></image>
 					<view class="drawer-user-name">{{userData.name}}</view>
 				</view>
-				<view class="uni-list" style="margin-top:155rpx;">
-					<view class="uni-list-cell" v-for="item in repos" :key="item.key">
-						<view class="uni-list-cell-navigate" @tap="repoSelect(item.key)">
-							{{item.name}}
+				<scroll-view scroll-y="true">
+					<view class="uni-list" style="margin-top:153rpx;">
+						<view class="uni-list-cell" v-for="item in repos" :key="item.key">
+							<view class="uni-list-cell-navigate" @tap="repoSelect(item.key)">
+								{{item.name}}
+							</view>
 						</view>
 					</view>
-				</view>
+				</scroll-view>
 			</view>
 		</uni-drawer>
 	</view>
@@ -51,8 +99,6 @@
 	// #ifndef  MP
 	isApp = true
 	// #endif
-	
-	console.log(isApp)
 	export default {
 		components: {
 			uniDrawer,
@@ -63,13 +109,19 @@
 				drawerVisible: false,
 				mode: isApp ? "left" : "right",
 				userData: {},
-				repos: []
+				repos: [],
+				events: []
 			}
 		},
 		mounted() {
 			this.setUserData(() => {
-				this.loadLocalRepos()
-				setTimeout(this.getRepos,1500)
+				this.loadLocalData()
+				setTimeout(() => {
+					this.getRepos()
+					this.getEvents()
+				},1500)
+				this.userData.created_at = this.userData.created_at.replace('T', ' ').replace('Z', '')
+				this.userData.updated_at = this.userData.updated_at.replace('T', ' ').replace('Z', '')
 			})
 		},
 		methods: {
@@ -93,7 +145,7 @@
 					}
 				});
 			},
-			loadLocalRepos(){
+			loadLocalData(){
 				uni.getStorage({
 					key: this.userData.login+'Repos',
 					success: (res) => {
@@ -102,6 +154,82 @@
 						}
 					}
 				});
+				uni.getStorage({
+					key: this.userData.login+'Events',
+					success: (res) => {
+						if(res.data && res.data.length > 0){
+							this.setEvents(res.data)
+						}
+					}
+				});
+			},
+			getEvents(){
+				uni.request({
+					url: this.userData.events_url.replace("{/privacy}", ""),
+					success: (res) => {
+						if(res && res.data && res.data.length > 0){
+							uni.setStorage({
+								key: this.userData.login+'Events',
+								data: res.data
+							});
+							this.setEvents(res.data)
+						}else{
+							uni.showToast({title:"居然没有获取到事件！", icon:'none'})
+						}
+					},
+					fail: (data) => {
+						uni.showToast({title:"获取事件好像有问题！", icon:'none'})
+					}
+				})
+			},
+			setEvents(data){
+				if(data && data instanceof Array){
+					this.events.splice(0, this.events.length)
+					data.forEach((item) => {
+						var type = ""
+						var subEvent = ""
+						switch(item.type){
+							case "WatchEvent":
+								type = "查看"
+								subEvent = item.payload.description
+								break;
+							case "CreateEvent":
+								type = "创建"
+								subEvent = item.payload.description
+								break;
+							case "PushEvent":
+								type = "推送"
+								subEvent = item.payload.commits[0].message
+								break;
+							case "ForkEvent":
+								type = "Fork"
+								subEvent = item.payload.forkee.description
+								break;
+							default:
+								break
+						}
+						let thisEvent = {
+								key: item.id,
+								updateDate: item.created_at.substring(2,10),
+								type: type,
+								event: item.repo.name ? item.repo.name.replace(/^\s+|\s+$/gm,'') : "",
+								subEvent: subEvent ? subEvent.replace(/^\s+|\s+$/gm,'') : ""
+							}
+						let isEquls = false;
+						if(this.events.length > 0){
+							let lastEvent = this.events[this.events.length - 1]
+							if (lastEvent.updateDate == thisEvent.updateDate && 
+								lastEvent.event == thisEvent.event && 
+								lastEvent.subEvent == thisEvent.subEvent ){
+									isEquls = true
+								}
+						}
+						if (type != "" && !isEquls) {
+							this.events.push(thisEvent)
+						}
+					});
+					console.info(this.events)
+				}
 			},
 			getRepos(){
 				uni.request({
@@ -123,35 +251,21 @@
 				})
 			},
 			setRepos(data) {
-				data.forEach((item) => {
-					this.repos.push({
-						name: item.name,
-						key: item.clone_url
-					})
-				});
+				if (data && data instanceof Array){
+					this.repos.splice(0, this.repos.length)
+					data.forEach((item) => {
+						this.repos.push({
+							name: item.name,
+							key: item.clone_url
+						})
+					});
+				}
 			},
 			repoSelect(key){
 				uni.showToast({title:key, icon:'none'})
 			},
 			showDrawer() {
 				this.drawerVisible = true;
-			},
-			item1() {
-				this.drawerVisible = false;
-				uni.showToast({
-					title: 'item1'
-				});
-			},
-			item2() {
-				this.drawerVisible = false;
-				uni.showToast({
-					title: 'item2'
-				});
-			},
-			confirm() {
-				uni.showToast({
-					title: '搜索'
-				})
 			}
 		},
 		onNavigationBarButtonTap(e) {
@@ -175,7 +289,16 @@
 		align-items: center;
 		background: #323232;
 	}
-	
+	.uni-padding-wrap{
+		padding:16rpx 30rpx;
+		/* #ifdef MP */
+		height:calc(100% - 100rpx);
+		/* #endif */
+		/* #ifndef MP */
+		height:100%;
+		/* #endif */
+		overflow-y:auto;
+	}
 	.drawer-back{
 		background: #222222;
 		height: 100% !important;
@@ -198,6 +321,7 @@
 		height: 155rpx;
 		width: 100%;
 		background: #323232;
+		border-bottom: 1upx solid #C8C9CA;
 		position: absolute;
 		z-index: 999;
 		top:0;
@@ -249,6 +373,13 @@
 		position: absolute;
 		right: 10px;
 	}
+	.uni-timeline-last-item .uni-timeline-item-divider {
+		background-color:#BBB;
+	}
+	.uni-timeline-first-item .uni-timeline-item-divider {
+		background-color:#1AAD19;
+	}
+
 
 	.input {
 		flex: 1;

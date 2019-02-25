@@ -85,7 +85,6 @@
 			uni.getStorage({
 				key: 'userdata',
 				success: (res) => {
-					console.info(res)
 					if(res && res.data && res.data.login){
 						uni.redirectTo({
 							url: '../project/index'
