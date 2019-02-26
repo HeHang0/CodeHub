@@ -18,7 +18,7 @@
 					<button :loading="login.loading" @tap="handlerLogin"> {{ login.loading ? "登录中...":"登 录"}} </button>
 				</view>
 
-				<view class="is-margin15" style="height: 88rpx;">
+				<view class="is-margin15" style="height: 88upx;">
 					
 				</view>
 			</view>
@@ -90,7 +90,7 @@
 		mounted() {
 			var pages = getCurrentPages();
 			var page = pages[pages.length - 1];
-			if(page.options.logout) {
+			if(page.options && page.options.logout) {
 				this.login.loaded = true
 				uni.clearStorage()
 				return
@@ -140,13 +140,13 @@
 		opacity: 1 !important;
 	}
 	.loginbtn button {
-		margin-top: 20rpx;
-		height: 88rpx;
+		margin-top: 20upx;
+		height: 88upx;
 		width: 100%;
-		line-height: 88rpx;
+		line-height: 88upx;
 		color: #ffffff;
-		font-size: 32rpx;
-		border-radius: 44rpx;
+		font-size: 32upx;
+		border-radius: 44upx;
 		outline: 0;
 		display: block;
 		margin: 0;
@@ -156,7 +156,7 @@
 	}
 
 	button:after {
-		border: 2rpx solid #f2f2f2;
+		border: 2upx solid #f2f2f2;
 	}
 
 	.logoview{
@@ -165,34 +165,34 @@
 		align-items: center;
 	}
 	.logoimg {
-		width: 200rpx;
-		height: 200rpx;
+		width: 200upx;
+		height: 200upx;
 		border-radius: 50%;
 	}
 	
 	.is-margin15{
-		margin: 30rpx 0;
+		margin: 30upx 0;
 	}
 	.is-margin-buttom-100{
-		margin-bottom: 100rpx;
+		margin-bottom: 100upx;
 	}
 	
 
 	.is-input {
-		height: 88rpx;
+		height: 88upx;
 		width: 100%;
-		line-height: 88rpx;
-		padding: 12rpx;
+		line-height: 88upx;
+		padding: 12upx;
 		color: #353535;
-		font-size: 32rpx;
+		font-size: 32upx;
 		box-sizing: border-box;
 		appearance: none;
-		border: 2rpx solid #24292e;
+		border: 2upx solid #24292e;
 		box-shadow: none;
-		border-radius: 44rpx;
+		border-radius: 44upx;
 		outline: 0;
 		display: block;
-		padding-left: 30rpx;
+		padding-left: 30upx;
 		margin: 0;
 		font-family: inherit;
 		background: #fff;
