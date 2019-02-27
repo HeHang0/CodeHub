@@ -5,7 +5,7 @@
 		<!-- #ifdef MP || H5 -->
 		<view class="header">
 			<view class="logo-white-view">
-				<image src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTUxMDI1OTQzNDgwIiBjbGFzcz0iaWNvbiIgc3R5bGU9IiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjExMDAiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PC9zdHlsZT48L2RlZnM+PHBhdGggZD0iTTk1MC45MzAyODYgNTEycTAgMTQzLjQzMzE0My04My43NDg1NzEgMjU3Ljk3NDg1N3QtMjE2LjI4MzQyOSAxNTguNTczNzE0cS0xNS40MzMxNDMgMi44NTI1NzEtMjIuNjAxMTQzLTQuMDIyODU3dC03LjE2OC0xNy4xMTU0MjlsMC0xMjAuNTM5NDI5cTAtNTUuNDQyMjg2LTI5LjY5Ni04MS4xMTU0MjkgMzIuNTQ4NTcxLTMuNDM3NzE0IDU4LjU4NzQyOS0xMC4zMTMxNDN0NTMuNjg2ODU3LTIyLjMwODU3MSA0Ni4yOTk0MjktMzguMDM0Mjg2IDMwLjI4MTE0My01OS45NzcxNDMgMTEuNzAyODU3LTg2LjAxNnEwLTY5LjEyLTQ1LjEyOTE0My0xMTcuNjg2ODU3IDIxLjEzODI4Ni01Mi4wMDQ1NzEtNC41MzQ4NTctMTE2LjU4OTcxNC0xNi4wMTgyODYtNS4xMi00Ni4yOTk0MjkgNi4yOTAyODZ0LTUyLjU4OTcxNCAyNS4xNjExNDNsLTIxLjcyMzQyOSAxMy42Nzc3MTRxLTUzLjE3NDg1Ny0xNC44NDgtMTA5LjcxNDI4Ni0xNC44NDh0LTEwOS43MTQyODYgMTQuODQ4cS05LjE0Mjg1Ny02LjI5MDI4Ni0yNC4yODM0MjktMTUuNDMzMTQzdC00Ny42ODkxNDMtMjIuMDE2LTQ5LjE1Mi03LjY4cS0yNS4xNjExNDMgNjQuNTg1MTQzLTQuMDIyODU3IDExNi41ODk3MTQtNDUuMTI5MTQzIDQ4LjU2Njg1Ny00NS4xMjkxNDMgMTE3LjY4Njg1NyAwIDQ4LjU2Njg1NyAxMS43MDI4NTcgODUuNzIzNDI5dDI5Ljk4ODU3MSA1OS45NzcxNDMgNDYuMDA2ODU3IDM4LjI1MzcxNCA1My42ODY4NTcgMjIuMzA4NTcxIDU4LjU4NzQyOSAxMC4zMTMxNDNxLTIyLjgyMDU3MSAyMC41NTMxNDMtMjguMDEzNzE0IDU4Ljg4LTExLjk5NTQyOSA1LjcwNTE0My0yNS43NDYyODYgOC41NTc3MTR0LTMyLjU0ODU3MSAyLjg1MjU3MS0zNy40NDkxNDMtMTIuMjg4LTMxLjc0NC0zNS42OTM3MTRxLTEwLjgyNTE0My0xOC4yODU3MTQtMjcuNzIxMTQzLTI5LjY5NnQtMjguMzA2Mjg2LTEzLjY3NzcxNGwtMTEuNDEwMjg2LTEuNjgyMjg2cS0xMS45OTU0MjkgMC0xNi42MDM0MjkgMi41NnQtMi44NTI1NzEgNi41ODI4NTcgNS4xMiA3Ljk3MjU3MSA3LjQ2MDU3MSA2Ljg3NTQyOWw0LjAyMjg1NyAyLjg1MjU3MXExMi41ODA1NzEgNS43MDUxNDMgMjQuODY4NTcxIDIxLjcyMzQyOXQxNy45OTMxNDMgMjkuMTEwODU3bDUuNzA1MTQzIDEzLjE2NTcxNHE3LjQ2MDU3MSAyMS43MjM0MjkgMjUuMTYxMTQzIDM1LjEwODU3MXQzOC4yNTM3MTQgMTcuMTE1NDI5IDM5LjcxNjU3MSA0LjAyMjg1NyAzMS43NDQtMS45NzQ4NTdsMTMuMTY1NzE0LTIuMjY3NDI5cTAgMjEuNzIzNDI5IDAuMjkyNTcxIDUwLjgzNDI4NnQwLjI5MjU3MSAzMC44NjYyODZxMCAxMC4zMTMxNDMtNy40NjA1NzEgMTcuMTE1NDI5dC0yMi44MjA1NzEgNC4wMjI4NTdxLTEzMi41MzQ4NTctNDQuMDMyLTIxNi4yODM0MjktMTU4LjU3MzcxNHQtODMuNzQ4NTcxLTI1Ny45NzQ4NTdxMC0xMTkuNDQyMjg2IDU4Ljg4LTIyMC4zMDYyODZ0MTU5Ljc0NC0xNTkuNzQ0IDIyMC4zMDYyODYtNTguODggMjIwLjMwNjI4NiA1OC44OCAxNTkuNzQ0IDE1OS43NDQgNTguODggMjIwLjMwNjI4NnoiIHAtaWQ9IjExMDEiIGZpbGw9IiNGRkZGRkYiPjwvcGF0aD48L3N2Zz4="></image>
+				<image src="../../static/img/common/git_logo.svg"></image>
 				<view class="icon" @click="drawer.visible = true">
 					<uni-icon type="bars" color="#C8C9CA" :size="22"></uni-icon>
 				</view>
@@ -89,15 +89,28 @@
 												<label class="repos-title">
 													{{item.name}}
 												</label>
-												<label>
+												<label class="repos-description">
 													{{item.description}}
+												</label>
+												<view class="repos-other">
+													<view class="language-circle" :style="{background:item.color}"></view>
+													<label class="repos-language">
+														{{item.language}}
+													</label>
+													<label class="repos-language">
+														更新于{{item.updatedAtDescription}}
+													</label>
+												</view>
+												<label v-if="item.license!=''" class="repos-license">
+													<svg fill="currentColor" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z"></path></svg>
+													{{item.license}}
 												</label>
 												<!-- name: item.name,
 												key: item.clone_url,
 												description: item.description,
 												language: item.language,
 												forksCount: item.forks_count,
-												starCount: item.stargazers_count,
+												starCount: item.stargazers_count,updatedAtDescription
 												updatedAt: item.updated_at.replace("T"," ").replace("Z","") -->
 											</view>
 										</view>
@@ -139,6 +152,7 @@
 <script>
 	import uniDrawer from '../../components/uni-drawer.vue'
 	import uniIcon from '../../components/uni-icon.vue'
+	import util from '../../common/util.js'
 	let authorization = ""
 		uni.getStorage({
 			key: 'Authorization',
@@ -148,6 +162,11 @@
 		});
 	let isApp = false
 	const systemInfo = uni.getSystemInfoSync()
+	let swiperHeight = (systemInfo.windowHeight-87)+"px"
+	// #ifdef H5
+	swiperHeight = (systemInfo.windowHeight-85)+"px",
+	// #endif
+	
 	// #ifndef  MP
 	isApp = true
 	// #endif
@@ -174,12 +193,7 @@
 				userData: {},
 				repos: [],
 				events: [],
-				// #ifdef H5
-				swiperHeight: (systemInfo.windowHeight-85)+"px",
-				// #endif
-				// #ifndef H5
-				swiperHeight: (systemInfo.windowHeight-87)+"px",
-				// #endif
+				swiperHeight: swiperHeight
 			}
 		},
 		mounted() {
@@ -189,8 +203,8 @@
 					this.getRepos()
 					this.getEvents()
 				},1500)
-				this.userData.created_at = this.userData.created_at.replace('T', ' ').replace('Z', '')
-				this.userData.updated_at = this.userData.updated_at.replace('T', ' ').replace('Z', '')
+				this.userData.created_at = util.UTCStrToDateStr(this.userData.created_at)
+				this.userData.updated_at = util.UTCStrToDateStr(this.userData.updated_at)
 			})
 		},
 		methods: {
@@ -374,7 +388,11 @@
 							language: item.language,
 							forksCount: item.forks_count,
 							starCount: item.stargazers_count,
-							updatedAt: item.updated_at.replace("T"," ").replace("Z","")
+							updatedAt: item.updated_at,
+							updatedAtDescription: util.UTCStrToDescription(item.pushed_at),
+							fork: item.fork,
+							color: util.languageToColor(item.language),
+							license: item.license ? item.license.name : ''
 						})
 					});
 					this.repos.splice(0, this.repos.length)
@@ -518,6 +536,12 @@
 	.uni-list-cell view{
 		line-height:48upx;
 	}
+	.uni-list-cell-hover{
+		background-color: #e6f3fd8f;
+	}
+	.uni-list-cell-hover .uni-label{
+		background-color: transparent;
+	}
 	.logo-white-view {
 		display: flex;
 		align-items: center;
@@ -548,15 +572,49 @@
 		background-color:#1AAD19;
 	}
 	
-	.uni-card .repos-title{
+	.uni-card .repos-title {
 		color: #007AFF;
 		font-size: 36upx;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		width: 100%;
 		overflow: hidden;
+		display: block;
 	}
-
+	.uni-card .repos-description {
+		color: black;
+		font-size: 30upx;
+		font-weight: lighter;
+	}
+	.uni-card .repos-other {
+		margin-top: 10upx;
+		display: flex;
+	}
+	.uni-card .repos-other .language-circle{
+		width: 20upx;
+		height: 20upx;
+		border-radius: 50%;
+		margin: auto 0;
+	}
+	.uni-card .repos-other .repos-language{
+		margin-left: 20upx;
+		color: black;
+		font-size: 26upx;
+		font-weight: lighter;
+		padding-top: 5upx;
+	}
+	.uni-card .repos-license{
+		color: black;
+		font-size: 20upx;
+		font-weight: lighter;
+	}
+	.uni-card .repos-license svg{
+		margin-right: 16upx;
+	}
+	
+	.uni-list-cell-navigate{
+		display: block;
+	}
 	.input {
 		flex: 1;
 		padding: 0 5upx;

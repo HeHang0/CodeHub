@@ -52,5 +52,12 @@
         "setting" : {
             "urlCheck" : true
         }
+    },
+    "h5" : {
+        "title" : "CodeHub",
+        "devServer" : {
+            "https" : false
+        },
+        "domain" : "oogoo.xyz"
     }
 }

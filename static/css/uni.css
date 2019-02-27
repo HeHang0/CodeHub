@@ -2,7 +2,12 @@
 	font-family: uniicons;
 	font-weight: normal;
 	font-style: normal;
+	/* #ifdef MP */
 	src: url('https://img-cdn-qiniu.dcloud.net.cn/fonts/uni.ttf') format('truetype');
+	/* #endif */
+	/* #ifndef MP */
+	src: url('/static/font/uni.ttf') format('truetype');
+	/* #endif */
 }
 
 /*通用 */
