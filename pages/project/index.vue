@@ -308,6 +308,7 @@
 			setEvents(data){
 				if(data && data instanceof Array){
 					var events = []
+					let lastEvent = null
 					data.forEach((item) => {
 						var type = ""
 						var subEvent = ""
@@ -340,12 +341,12 @@
 							}
 						let isEquls = false;
 						if(this.events.length > 0){
-							let lastEvent = this.events[this.events.length - 1]
-							if (lastEvent.updateDate == thisEvent.updateDate && 
+							if (lastEvent && lastEvent.updateDate == thisEvent.updateDate && 
 								lastEvent.event == thisEvent.event && 
 								lastEvent.subEvent == thisEvent.subEvent ){
 									isEquls = true
 								}
+							lastEvent = thisEvent
 						}
 						if (type != "" && !isEquls) {
 							events.push(thisEvent)
