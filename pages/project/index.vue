@@ -71,7 +71,7 @@
 											<view class="uni-timeline-item-content">
 												<view class="uni-title">
 													【{{item.type}}】{{item.event}}
-													\n<text>{{item.subEvent ? '\n'+item.subEvent : ""}}</text>
+													<text>{{item.subEvent ? '\n'+item.subEvent : ""}}</text>
 												</view>
 											</view>
 										</view>
@@ -86,7 +86,19 @@
 									<view class="uni-list">
 										<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="item in repos" :key="item.key">
 											<view class="uni-list-cell-navigate" @tap="repoSelect(item.key)">
-												{{item.name}}
+												<label class="repos-title">
+													{{item.name}}
+												</label>
+												<label>
+													{{item.description}}
+												</label>
+												<!-- name: item.name,
+												key: item.clone_url,
+												description: item.description,
+												language: item.language,
+												forksCount: item.forks_count,
+												starCount: item.stargazers_count,
+												updatedAt: item.updated_at.replace("T"," ").replace("Z","") -->
 											</view>
 										</view>
 									</view>
@@ -162,12 +174,12 @@
 				userData: {},
 				repos: [],
 				events: [],
-				//#ifdef H5
-				swiperHeight: (systemInfo.windowHeight-88)+"px",
-				//#endif
-				//#ifndef H5
-				swiperHeight: (systemInfo.windowHeight-90)+"px",
-				//#endif
+				// #ifdef H5
+				swiperHeight: (systemInfo.windowHeight-85)+"px",
+				// #endif
+				// #ifndef H5
+				swiperHeight: (systemInfo.windowHeight-87)+"px",
+				// #endif
 			}
 		},
 		mounted() {
@@ -535,7 +547,15 @@
 	.uni-timeline-first-item .uni-timeline-item-divider {
 		background-color:#1AAD19;
 	}
-
+	
+	.uni-card .repos-title{
+		color: #007AFF;
+		font-size: 36upx;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		width: 100%;
+		overflow: hidden;
+	}
 
 	.input {
 		flex: 1;
