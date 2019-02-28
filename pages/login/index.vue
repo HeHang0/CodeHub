@@ -54,8 +54,8 @@
 					url: 'https://api.github.com/user',
 					header: {
 						'Authorization': authorization,
-						'Origin': 'https://api.github.com',
-						'Referer': 'https://api.github.com/'
+// 						'Origin': 'https://api.github.com',
+// 						'Referer': 'https://api.github.com/'
 					},
 					success: (res) => {
 						if(res && res.data && res.data.login){
@@ -181,9 +181,9 @@
 	
 
 	.is-input {
-		height: 88upx;
+		height: 80%;
 		width: 100%;
-		line-height: 88upx;
+		line-height: 80%;
 		padding: 12upx;
 		color: #353535;
 		font-size: 32upx;

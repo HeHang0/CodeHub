@@ -1,5 +1,8 @@
 <template>
 	<view style="height: 100%;">
+	<view style="width: 100%;height: 200upx;position: fixed;top:0;left: 0;background: red;">
+		
+	</view>
 	<scroll-view :scroll-y="scrollInfo.isPageScroll" lower-threshold="5"
 	class="scroll-Y" @scrolltolower="pageScrollToLower" style="height: 100%;width: 100%;">
 		<!-- #ifdef MP || H5 -->
@@ -82,7 +85,6 @@
 								<scroll-view :scroll-top="scrollInfo.eventScrollTop" :scroll-y="scrollInfo.isEventScroll" 
 									upper-threshold="20"
 									class="scroll-Y" @scrolltoupper="eventScrollToUpper" style="height: 100%;width: 100%;">
-								<!-- <view class="swiper-item"> -->
 									<view class="uni-list">
 										<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="item in repos" :key="item.key">
 											<view class="uni-list-cell-navigate" @tap="repoSelect(item.key)">
@@ -105,17 +107,9 @@
 													<svg fill="currentColor" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z"></path></svg>
 													{{item.license}}
 												</label>
-												<!-- name: item.name,
-												key: item.clone_url,
-												description: item.description,
-												language: item.language,
-												forksCount: item.forks_count,
-												starCount: item.stargazers_count,updatedAtDescription
-												updatedAt: item.updated_at.replace("T"," ").replace("Z","") -->
 											</view>
 										</view>
 									</view>
-								<!-- </view> -->
 								</scroll-view>
 							</swiper-item>
 						</swiper>
@@ -163,9 +157,7 @@
 	let isApp = false
 	const systemInfo = uni.getSystemInfoSync()
 	let swiperHeight = (systemInfo.windowHeight-87)+"px"
-	// #ifdef H5
-	swiperHeight = (systemInfo.windowHeight-85)+"px",
-	// #endif
+	console.log(systemInfo)
 	
 	// #ifndef  MP
 	isApp = true
@@ -189,7 +181,7 @@
 					isEventScroll: false,
 					isPageScroll: true
 				},
-				mode: isApp ? "left" : "right",
+				mode: "right",//isApp ? "left" : "right",
 				userData: {},
 				repos: [],
 				events: [],
@@ -206,6 +198,11 @@
 				this.userData.created_at = util.UTCStrToDateStr(this.userData.created_at)
 				this.userData.updated_at = util.UTCStrToDateStr(this.userData.updated_at)
 			})
+	// #ifdef H5
+	let headerHeight = document.getElementsByClassName("header")[0].offsetHeight
+	let windowTop = document.getElementsByClassName("uni-page-head")[0].offsetHeight
+	this.swiperHeight = (systemInfo.windowHeight-headerHeight-windowTop-(systemInfo.windowHeight*0.015))+"px"//
+	// #endif
 		},
 		methods: {
 			eventScrollToUpper(e){
@@ -215,6 +212,7 @@
 			pageScrollToLower(e){
 				this.scrollInfo.isEventScroll = true
 				this.scrollInfo.isPageScroll = false
+				this.scrollInfo.eventScrollTop = 10
 			},
 			drawerHTouchmove(e){
 				this.drawer.oldx = e.detail.x
@@ -440,7 +438,7 @@
 		background: #323232;
 		width:100%;
 		/* #ifdef H5 */
-		top: 80upx;
+		top: var(--window-top);
 		/* #endif */
 		
 		/* #ifndef H5 */
