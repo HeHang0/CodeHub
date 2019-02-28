@@ -1,8 +1,5 @@
 <template>
 	<view style="height: 100%;">
-	<view style="width: 100%;height: 200upx;position: fixed;top:0;left: 0;background: red;">
-		
-	</view>
 	<scroll-view :scroll-y="scrollInfo.isPageScroll" lower-threshold="5"
 	class="scroll-Y" @scrolltolower="pageScrollToLower" style="height: 100%;width: 100%;">
 		<!-- #ifdef MP || H5 -->
@@ -87,11 +84,11 @@
 									class="scroll-Y" @scrolltoupper="eventScrollToUpper" style="height: 100%;width: 100%;">
 									<view class="uni-list">
 										<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="item in repos" :key="item.key">
-											<view class="uni-list-cell-navigate" @tap="repoSelect(item.key)">
+											<view class="uni-list-cell-navigate" @tap="repoSelect(item)">
 												<label class="repos-title">
 													{{item.name}}
 												</label>
-												<label class="repos-description">
+												<label v-if="item.description" class="repos-description">
 													{{item.description}}
 												</label>
 												<view class="repos-other">
@@ -129,8 +126,8 @@
 						</view>
 						<scroll-view scroll-y style="height: 100%;">
 							<view class="uni-list" style="margin-top:153upx;">
-								<view class="uni-list-cell" v-for="item in repos" :key="item.key">
-									<view class="uni-list-cell-navigate" @tap="repoSelect(item.key)">
+								<view class="uni-list-cell" v-for="item in repos" :key="item.trees">
+									<view class="uni-list-cell-navigate" @tap="repoSelect(item)">
 										{{item.name}}
 									</view>
 								</view>
@@ -156,10 +153,8 @@
 		});
 	let isApp = false
 	const systemInfo = uni.getSystemInfoSync()
-	let swiperHeight = (systemInfo.windowHeight-87)+"px"
-	console.log(systemInfo)
-	
-	// #ifndef  MP
+	let swiperHeight = (systemInfo.windowHeight*0.79+55)+"px"
+	// #ifndef  MP || H5
 	isApp = true
 	// #endif
 	export default {
@@ -181,7 +176,7 @@
 					isEventScroll: false,
 					isPageScroll: true
 				},
-				mode: "right",//isApp ? "left" : "right",
+				mode: isApp ? "left" : "right",
 				userData: {},
 				repos: [],
 				events: [],
@@ -198,11 +193,11 @@
 				this.userData.created_at = util.UTCStrToDateStr(this.userData.created_at)
 				this.userData.updated_at = util.UTCStrToDateStr(this.userData.updated_at)
 			})
-	// #ifdef H5
-	let headerHeight = document.getElementsByClassName("header")[0].offsetHeight
-	let windowTop = document.getElementsByClassName("uni-page-head")[0].offsetHeight
-	this.swiperHeight = (systemInfo.windowHeight-headerHeight-windowTop-(systemInfo.windowHeight*0.015))+"px"//
-	// #endif
+			// #ifdef H5
+			let headerHeight = document.getElementsByClassName("header")[0].offsetHeight
+			let windowTop = document.getElementsByClassName("uni-page-head")[0].offsetHeight
+			this.swiperHeight = (systemInfo.windowHeight*0.81-headerHeight-windowTop+95)+"px"
+			// #endif
 		},
 		methods: {
 			eventScrollToUpper(e){
@@ -382,7 +377,7 @@
 					data.forEach((item) => {
 						repos.push({
 							name: item.name,
-							key: item.clone_url,
+							trees: item.trees_url.replace("{/sha}", "/master"),//item.clone_url,
 							description: item.description,
 							language: item.language,
 							forksCount: item.forks_count,
@@ -398,8 +393,11 @@
 					this.repos = repos
 				}
 			},
-			repoSelect(key){
-				uni.showToast({title:key, icon:'none'})
+			repoSelect(item){
+				this.drawer.visible = false
+				uni.navigateTo({
+					url: `./repo?trees=${item.trees}&title=${item.name}`
+				});
 			},
 			logOut(){
 				uni.redirectTo({url: '../login/index?logout=true'});

@@ -13,10 +13,28 @@
             "path" : "pages/project/index",
             "style" : {
                 "navigationBarTitleText" : "项目",
-				"navigationBarTextStyle" : "white",
-				"navigationBarBackgroundColor": "#323232",
-				"enablePullDownRefresh": true  
-			}
+                "navigationBarTextStyle" : "white",
+                "navigationBarBackgroundColor" : "#323232",
+                "enablePullDownRefresh" : true
+            }
+        },
+        {
+            "path" : "pages/project/repo",
+            "style" : {
+                "navigationBarTitleText" : "分支",
+                "navigationBarTextStyle" : "white",
+                "navigationBarBackgroundColor" : "#323232",
+                "enablePullDownRefresh" : true
+            }
+        },
+        {
+            "path" : "pages/project/content",
+            "style" : {
+                "navigationBarTitleText" : "内容",
+                "navigationBarTextStyle" : "white",
+                "navigationBarBackgroundColor" : "#323232",
+                "enablePullDownRefresh" : true
+            }
         }
     ],
     "globalStyle" : {

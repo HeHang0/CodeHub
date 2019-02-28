@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 	export default {
 		onLaunch: function () {
 			console.log('App Launch')
@@ -10,8 +10,8 @@
 			console.log('App Hide')
 		}
 	}
-</script>
-
+</script> -->
+<script type="text/javascript" src="./common/extend.js"></script>
 <style>
 	/*每个页面公共css */
 
