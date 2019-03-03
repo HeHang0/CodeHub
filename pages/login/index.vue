@@ -54,8 +54,6 @@
 					url: 'https://api.github.com/user',
 					header: {
 						'Authorization': authorization,
-// 						'Origin': 'https://api.github.com',
-// 						'Referer': 'https://api.github.com/'
 					},
 					success: (res) => {
 						if(res && res.data && res.data.login){

@@ -4,29 +4,26 @@
 				<!-- <view class="uni-list-cell-divider">
 					右侧带箭头
 				</view> -->
-				<view class="uni-list-cell" hover-class="uni-list-cell-hover"
+				<view class="uni-list-cell contents" hover-class="uni-list-cell-hover"
 					v-for="item in trees" :key="item.path">
 					<view class="uni-list-cell-navigate" :class="{'uni-navigate-right':item.type=='tree'}" @tap="treeSelect(item)">
-						{{item.path}} - {{item.type}} - {{item.mode}} - {{item.size}}
+						<label>
+							<view style="float:left;padding-top:6upx;">
+								<image v-if="item.type=='tree'" src="../../static/img/repo/folder.svg"></image>
+								<image v-else-if="item.type=='blob'" src="../../static/img/repo/file.svg"></image>
+							</view>
+							
+							{{item.path}}
+						</label>
 					</view>
 				</view>
-								<!-- <view class="uni-list-cell" v-for="item in repos" :key="item.trees">
-									<view class="uni-list-cell-navigate" @tap="repoSelect(item)">
-										{{item.name}}
-									</view>
-								</view> -->
-<!-- 							"path": ".gitignore",
-								"mode": "100644",
-								"type": "blob",
-								"sha": "28bc4d6c05be4839801ace93bfa5dddf6d6d275c",
-								"size": 28,
-								"url": "https://api.github.com/repos/HeHang0/CodeHub/git/blobs/28bc4d6c05be4839801ace93bfa5dddf6d6d275c"
- -->			</view>
+			</view>
 	</view>
 </template>
 
 <script>
 	import uniBadge from "../../components/uni-badge.vue";
+	import util from '../../common/util.js'
 	let treesUrl = ""
 	export default {
 		data() {
@@ -37,22 +34,42 @@
 		mounted() {
 			var pages = getCurrentPages();
 			var page = pages[pages.length - 1];
-			if(page.options && page.options.trees && page.options.title
-				&& page.options.trees.indexOf("http") == 0) {
-				treesUrl = page.options.trees
-				uni.setNavigationBarTitle({title: page.options.title})
+			
+			
+			// #ifdef H5
+			let options = util.parseQueryString(page.$el.baseURI)
+			if (options.trees && options.title
+				&& options.trees.indexOf("http") == 0){
+				treesUrl = options.trees
+				uni.setNavigationBarTitle({title: options.title})
 			}else{
 				uni.navigateBack({delta:1})
 				return
 			}
+			// #endif
+			
+			// #ifndef H5
+			if(page.options && page.options.trees && page.options.title
+				&& page.options.trees.indexOf("http") == 0) {
+				treesUrl = page.options.trees
+				uni.setNavigationBarTitle({title: page.options.title})
+			}
+			else{
+				uni.navigateBack({delta:1})
+				return
+			}
+			// #endif
 			this.getTrees()
 		},
 		methods: {
 			getTrees(){
 				uni.request({
 					url: treesUrl,
+					header: {
+						'Authorization': "Basic SGVIYW5nMDpoaGQ5NTEwMTI=",
+					},
 					success: (res) => {
-						if(res && res.data && res.data){
+						if(res && res.data && res.data && res.data.tree){
 							this.setTrees(res.data)
 						}else{
 							uni.showToast({title:"居然没有获取到目录！", icon:'none'})
@@ -91,5 +108,10 @@
 </script>
 
 <style>
-
+	.contents image{
+		fill: currentColor;
+		margin-right: 16upx;
+		width: 30upx;
+		height: 30upx;
+	}
 </style>

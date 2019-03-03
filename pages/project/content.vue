@@ -1,14 +1,18 @@
 <template>
-	<view class="uni-padding-wrap">
-		<uParse :content="article" @preview="preview" @navigate="navigate" />
+	<view class="uni-padding-wrap" style="width: auto;">
+		<!-- <uParse :content="article" noData="" @preview="preview" @navigate="navigate" /> -->
+		<!-- <towxml :loading="loading" :content="article" style="height: 412rpx;width: 672rpx;"/> -->
+		<textarea v-model="article" maxlength="-1" auto-height="true" style="width: 2000px;overflow-x:auto;"></textarea>
 	</view>
 </template>
 
 <script>
 	import { Base64 } from 'js-base64'
+	import util from '../../common/util.js'
 	import marked from '../../components/marked'
 	import uParse from '../../components/uParse/src/wxParse.vue'
-
+	import Towxml from '../../wxcomponents/towxmla/main.js'
+	const towxml = new Towxml
 	let contentUrl = ""
 	let isContentMD = false
 	export default {
@@ -17,12 +21,31 @@
 		},
 		data() {
 			return {
-				article: ''
+				article: '',
+				loading: true
 			}
 		},
+		onLoad() {  
+		}, 
 		mounted() {
 			let pages = getCurrentPages();
 			let page = pages[pages.length - 1];
+			// #ifdef H5
+			let options = util.parseQueryString(page.$el.baseURI)
+			if (options.url && options.title
+				&& options.url.indexOf("http") == 0){
+				contentUrl = options.url
+				if(options.title.lastIndexOf(".md") == (options.title.length - 3)){
+					isContentMD = true
+				}
+				uni.setNavigationBarTitle({title: options.title})
+			}else{
+				uni.navigateBack({delta:1})
+				return
+			}
+			// #endif
+			
+			// #ifndef H5
 			if(page.options && page.options.url && page.options.title
 				&& page.options.url.indexOf("http") == 0) {
 				contentUrl = page.options.url
@@ -34,12 +57,18 @@
 				uni.navigateBack({delta:1})
 				return
 			}
+			// #endif
+			
 			this.getContent()
 		},
 		methods: {
 			getContent(){
+				this.loading = true
 				uni.request({
 					url: contentUrl,
+					header: {
+						'Authorization': "Basic SGVIYW5nMDpoaGQ5NTEwMTI=",
+					},
 					success: (res) => {
 						if(res && res.data){
 							this.setContent(res.data)
@@ -54,18 +83,22 @@
 			},
 			setContent(data){
 				let content = ""
-				console.info(data)
 				if (data.encoding = "base64"){
 					content = Base64.decode(data.content)
 				}else{
 					content = "# 出错了"
 					isContentMD = true
 				}
-				if(isContentMD){
-					this.article = marked(content)
-				}else{
-					this.article = `<div>${content}</div>`
-				}
+// 				let articleData = towxml.toJson(content,'markdown');
+// 				articleData.theme = 'light';
+// 				if(isContentMD){
+// 					this.article = marked(content)
+// 				}else{
+// 					this.article = content
+// 				}
+				this.article = content
+				console.log(content)
+				// this.article = towxml.md2html("```java\n"+content+"\n```")
 			},
 			escapeHTML(a){
 				a = "" + a;

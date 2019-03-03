@@ -15,7 +15,21 @@
                 "navigationBarTitleText" : "项目",
                 "navigationBarTextStyle" : "white",
                 "navigationBarBackgroundColor" : "#323232",
-                "enablePullDownRefresh" : true
+                // "enablePullDownRefresh" : true,
+				"app-plus" : {
+				    "titleNView" : {
+				        "buttons" : [
+				            {
+				                "text" : "\ue563",
+				                "fontSrc" : "/static/font/uni.ttf",
+				                "fontSize" : "22px",
+								"float": "right",
+								"color":"white"
+				            }
+				        ]
+				    },
+				    "bounce" : "none"
+				}
             }
         },
         {
@@ -34,6 +48,11 @@
                 "navigationBarTextStyle" : "white",
                 "navigationBarBackgroundColor" : "#323232",
                 "enablePullDownRefresh" : true
+//                 "usingComponents": {
+//                     // #ifdef APP-PLUS || MP-WEIXIN
+//                      "towxml": "/wxcomponents/towxml/index"
+//                     // #endif
+//                 }
             }
         }
     ],

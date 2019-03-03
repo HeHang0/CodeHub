@@ -2,16 +2,19 @@
 	<view style="height: 100%;">
 	<scroll-view :scroll-y="scrollInfo.isPageScroll" lower-threshold="5"
 	class="scroll-Y" @scrolltolower="pageScrollToLower" style="height: 100%;width: 100%;">
-		<!-- #ifdef MP || H5 -->
 		<view class="header">
-			<view class="logo-white-view">
-				<image src="../../static/img/common/git_logo.svg"></image>
+			<view class="logo-back-view">
+				<view class="logo-white-view" :class="{'logo-show-search': search.show}" @click="search.show=!search.show">
+					<input v-model="search.key" placeholder="输个用户名试试吧" @click.stop @confirm="searchUser"/>
+					<image src="../../static/img/common/git_logo.svg"></image>
+				</view>
+				<!-- #ifdef MP -->
 				<view class="icon" @click="drawer.visible = true">
 					<uni-icon type="bars" color="#C8C9CA" :size="22"></uni-icon>
 				</view>
+				<!-- #endif -->
 			</view>
 		</view>
-		<!-- #endif -->
 		
 		<view class="uni-padding-wrap">
 			<view class="uni-card">
@@ -24,8 +27,7 @@
 							<view class="uni-media-list-body ha">
 								<view class="uni-media-list-text-top media-user-name">{{userData.name}}</view>
 								<view class="uni-media-list-text-bottom uni-ellipsis">{{userData.login}}</view>
-								<view class="uni-media-list-text-bottom uni-ellipsis">{{userData.login}}</view>
-								<view class="uni-media-list-text-bottom uni-ellipsis">
+								<view v-if="userData.email" class="uni-media-list-text-bottom uni-ellipsis">
 									<uni-icon type="email" size="20" color="#666666"></uni-icon>
 									{{' '+userData.email}}
 								</view>
@@ -45,7 +47,7 @@
 							更新时间：
 							<text>{{userData.updated_at}}</text>
 						</view>
-						<view class="uni-title">
+						<view v-if="userData.disk_usage" class="uni-title">
 							空间占用：
 							<text>{{userData.disk_usage}} KB</text>
 						</view>
@@ -69,7 +71,7 @@
 											<view class="uni-timeline-item-keynode">{{item.updateDate}}</view>
 											<view class="uni-timeline-item-divider"></view>
 											<view class="uni-timeline-item-content">
-												<view class="uni-title">
+												<view class="uni-title" @tap="eventSelect(item)">
 													【{{item.type}}】{{item.event}}
 													<text>{{item.subEvent ? '\n'+item.subEvent : ""}}</text>
 												</view>
@@ -83,10 +85,14 @@
 									upper-threshold="20"
 									class="scroll-Y" @scrolltoupper="eventScrollToUpper" style="height: 100%;width: 100%;">
 									<view class="uni-list">
-										<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="item in repos" :key="item.key">
+										<view class="uni-list-cell repos" hover-class="uni-list-cell-hover" v-for="item in repos" :key="item.key">
 											<view class="uni-list-cell-navigate" @tap="repoSelect(item)">
 												<label class="repos-title">
-													{{item.name}}
+													<image v-if="item.fork" src="../../static/img/repo/fork.svg"></image>
+													<image v-else src="../../static/img/repo/repo.svg"></image>
+													<!-- <svg v-if="item.fork" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"></path></svg>
+													<svg v-else viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>-->
+													 {{item.name}}
 												</label>
 												<label v-if="item.description" class="repos-description">
 													{{item.description}}
@@ -101,7 +107,9 @@
 													</label>
 												</view>
 												<label v-if="item.license!=''" class="repos-license">
-													<svg fill="currentColor" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z"></path></svg>
+													<image src="../../static/img/repo/license.svg"></image>
+													<!-- <view style="background-image: url('../../static/img/common/license.svg');"></view> -->
+													<!-- <svg fill="currentColor" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z"></path></svg> -->
 													{{item.license}}
 												</label>
 											</view>
@@ -110,7 +118,6 @@
 								</scroll-view>
 							</swiper-item>
 						</swiper>
-						
 					</view>
 				</view>
 			</view>
@@ -122,7 +129,7 @@
 							<image :src="userData.avatar_url" mode="aspectFit" class="logoimg"></image>
 							<view class="drawer-user-name">{{userData.name}}</view>
 							<br />
-							<text @tap="logOut" style="color:#FFFFFF6F;">注销</text>
+							<text v-if="!search.isSearchUser" @tap="logOut" style="color:#FFFFFF6F;position: absolute;right: 10upx;top: 10upx;">注销</text>
 						</view>
 						<scroll-view scroll-y style="height: 100%;">
 							<view class="uni-list" style="margin-top:153upx;">
@@ -157,6 +164,9 @@
 	// #ifndef  MP || H5
 	isApp = true
 	// #endif
+	// #ifdef APP-PLUS
+	swiperHeight = (systemInfo.windowHeight*0.79+35)+"px"
+	// #endif
 	export default {
 		components: {
 			uniDrawer,
@@ -176,7 +186,12 @@
 					isEventScroll: false,
 					isPageScroll: true
 				},
-				mode: isApp ? "left" : "right",
+				search: {
+					show: false,
+					key: '',
+					isSearchUser: false
+				},
+				mode: "right",//isApp ? "left" : 
 				userData: {},
 				repos: [],
 				events: [],
@@ -184,15 +199,33 @@
 			}
 		},
 		mounted() {
-			this.setUserData(() => {
-				this.loadLocalData()
-				setTimeout(() => {
-					this.getRepos()
-					this.getEvents()
-				},1500)
-				this.userData.created_at = util.UTCStrToDateStr(this.userData.created_at)
-				this.userData.updated_at = util.UTCStrToDateStr(this.userData.updated_at)
-			})
+			var pages = getCurrentPages();
+			var page = pages[pages.length - 1];
+			// #ifdef H5
+			let options = util.parseQueryString(page.$el.baseURI)
+			if (options.user){
+				this.mounteRemote(options.user)
+				this.search.isSearchUser = true
+			}else if(JSON.stringify(options) == "{}"){
+				this.mounteLocal()
+			}else{
+				uni.navigateBack({delta:1})
+				return
+			}
+			// #endif
+			console.info(page)
+			// #ifndef H5
+			if(page.options && page.options.user) {
+				this.mounteRemote(page.options.user)
+				this.search.isSearchUser = true
+			}else if(JSON.stringify(page.options) == "{}"){
+				this.mounteLocal()
+			}else{
+				uni.navigateBack({delta:1})
+				return
+			}
+			// #endif
+			
 			// #ifdef H5
 			let headerHeight = document.getElementsByClassName("header")[0].offsetHeight
 			let windowTop = document.getElementsByClassName("uni-page-head")[0].offsetHeight
@@ -200,6 +233,38 @@
 			// #endif
 		},
 		methods: {
+			mounteLocal(){
+				this.getLocalUserData(() => {
+					this.loadLocalData()
+					setTimeout(() => {
+						this.getRepos()
+						this.getEvents()
+					},1500)
+					this.userData.created_at = util.UTCStrToDateStr(this.userData.created_at)
+					this.userData.updated_at = util.UTCStrToDateStr(this.userData.updated_at)
+				})
+			},
+			mounteRemote(userName){
+				this.getUserData(userName, () => {
+					setTimeout(() => {
+						this.getRepos()
+						this.getEvents()
+					},100)
+					this.userData.created_at = util.UTCStrToDateStr(this.userData.created_at)
+					this.userData.updated_at = util.UTCStrToDateStr(this.userData.updated_at)
+				}, () => {
+					uni.navigateBack({delta:1})
+				})
+			},
+			searchUser(){
+				if(!/^[a-zA-Z][a-zA-Z0-9\-]{0,}[a-zA-Z0-9]$/.test(this.search.key)){
+					uni.showToast({title:"格式不对呀（只能包含字母数字或-，并且不能以-开头或结尾）！", icon:'none'})
+				}else{
+					uni.navigateTo({
+						url: `./index?user=${this.search.key}`
+					});
+				}
+			},
 			eventScrollToUpper(e){
 				this.scrollInfo.isPageScroll = true
 				this.scrollInfo.isEventScroll = false
@@ -232,12 +297,32 @@
 					}, 100)
 				}
 			},
-			setUserData(success){
+			getUserData(userName, success, fail){
+				uni.request({
+					url: `https://api.github.com/users/${userName}`,
+					success: (res) => {
+						if(res && res.data && res.data.login == userName){
+							this.userData = res.data
+							uni.setNavigationBarTitle({title:res.data.name})
+							success()
+						}else{
+							uni.showToast({title:"输错了吧，没这个用户呀！", icon:'none'})
+							fail()
+						}
+					},
+					fail: (data) => {
+						uni.showToast({title:"输错了吧，没成功！", icon:'none'})
+						fail()
+					},
+				})
+			},
+			getLocalUserData(success){
 				uni.getStorage({
 					key: 'userdata',
 					success: (res) => {
 						if(res.data && res.data.login){
 							this.userData = res.data
+							uni.setNavigationBarTitle({title:res.data.name})
 							success()
 						}else {
 							uni.redirectTo({
@@ -393,7 +478,15 @@
 					this.repos = repos
 				}
 			},
+			eventSelect(item){
+				let trees = `https://api.github.com/repos/${item.event}/git/trees/master`
+				let title = item.event.substring(item.event.indexOf('/')+1)
+				uni.navigateTo({
+					url: `./repo?trees=${trees}&title=${title}`
+				});
+			},
 			repoSelect(item){
+				console.info(item)
 				this.drawer.visible = false
 				uni.navigateTo({
 					url: `./repo?trees=${item.trees}&title=${item.name}`
@@ -414,12 +507,13 @@
 			})
 		},
 		onNavigationBarButtonTap(e) {
-			this.drawerVisible = !this.drawerVisible
+			this.drawer.visible = !this.drawer.visible
 		},
 		onBackPress() {
+			uni.showToast({title:'返回', icon:'none'})
 			// 返回按钮监听
-			if (this.drawerVisible) {
-				this.drawerVisible = false;
+			if (this.drawer.visible) {
+				this.drawer.visible = false;
 				return true;
 			}
 		}
@@ -443,6 +537,55 @@
 		top: 0;
 		/* #endif */
 		z-index: 2;
+	}
+	.logo-back-view{
+		width: 100%;
+	}
+	.logo-white-view {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		flex: 1;
+		height: 60upx;
+		padding: 0 5upx;
+		align-content: center;
+		text-align: center;
+	}
+	.logo-white-view image{
+		width: 65upx;
+		height: 65upx;
+		margin:0 auto;
+		opacity: 1;
+		transition: width 2s, margin 2s, opacity 2s linear 0.1s;
+	}
+	.logo-white-view input{
+		border: #FFF solid 1upx;
+		border-radius: 30upx;
+		color: white;
+		height:45upx;
+		line-height: 45upx;
+		vertical-align:middle;
+		min-height:0;
+		width: 0;
+		opacity: 0;
+		margin-left: 0;
+		transition: width 2s, margin 2s, padding 2s, opacity 2s linear 0.1s;
+	}
+	.logo-show-search image{
+		width: 0;
+		opacity: 0;
+	}
+	.logo-show-search input{
+		width: 50%;
+		margin-left: 10upx;
+		padding:0 20rpx;
+		opacity: 1;
+	}
+	.logo-back-view .icon{
+		position: absolute;
+		top:10rpx;
+		right: 10upx;
 	}
 	.uni-padding-wrap{
 		padding: 0;
@@ -506,7 +649,8 @@
 	.drawer-user-name{
 		color: #C8C9CA;
 		float: left;
-		margin:50upx;
+		margin-left:30upx;
+		margin-top:50upx;
 	}
 	
 	.media-user-name {
@@ -538,23 +682,6 @@
 	}
 	.uni-list-cell-hover .uni-label{
 		background-color: transparent;
-	}
-	.logo-white-view {
-		display: flex;
-		align-items: center;
-		flex-direction: row;
-		height: 60upx;
-		padding: 0 5upx;
-		flex: 1;
-	}
-	.logo-white-view image{
-		width: 65upx;
-		height: 65upx;
-		margin:0 auto;
-	}
-	.logo-white-view .icon{
-		position: absolute;
-		right: 10upx;
 	}
 	.user-info-date .uni-title:first-child{
 		padding-top: 0;
@@ -605,8 +732,11 @@
 		font-size: 20upx;
 		font-weight: lighter;
 	}
-	.uni-card .repos-license svg{
+	.uni-card .repos image{
+		fill: "black";/* currentColor; */
 		margin-right: 16upx;
+		width: 30upx;
+		height: 30upx;
 	}
 	
 	.uni-list-cell-navigate{

@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "js-base64": "^2.5.1"
+    "js-base64": "^2.5.1",
+    "towxml": "^2.1.4",
+    "vue-codemirror-lite": "^1.0.4"
   }
 }

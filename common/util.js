@@ -72,7 +72,30 @@ function UTCStrToDescription(utcStr){
 	}
 }
 
+function parseQueryString(url) {
+    var obj = {};
+    var keyvalue = [];
+    var key = "",
+        value = "";
+	url = ""+url
+	var index = url.indexOf("?") + 1
+	if(index < 1){
+		return obj
+	}
+    var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
+	paraString.forEach((item) => {
+		keyvalue = (""+item).split("=");
+		if (keyvalue.length == 2){
+			key = keyvalue[0];
+			value = keyvalue[1];
+			obj[key] = decodeURIComponent(value);
+		}
+	})
+    return obj;
+}
+
 exports.languageToColor = languageToColor
 exports.UTCStrToDate = UTCStrToDate
 exports.UTCStrToDateStr = UTCStrToDateStr
 exports.UTCStrToDescription = UTCStrToDescription
+exports.parseQueryString = parseQueryString
