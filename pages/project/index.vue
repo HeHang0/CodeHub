@@ -122,27 +122,28 @@
 				</view>
 			</view>
 		</view>
-		<uni-drawer :visible="drawer.visible" :mode="mode" @close="drawer.visible = false">
-			<movable-area style="height: 100%;width:200%;">
+		<h-dragabledrawer :options="drawer" @close="drawer.visible = false">
+			<!-- <movable-area style="height: 100%;width:200%;">
 				<movable-view class="drawer-back" style="width: 50%;" :x="drawer.x" animation="false" @touchend="drawerTouchend" :disabled="drawer.disabled" direction="horizontal" @change="drawerHTouchmove">
-						<view class="drawer-user-avatar">
-							<image :src="userData.avatar_url" mode="aspectFit" class="logoimg"></image>
-							<view class="drawer-user-name">{{userData.name}}</view>
-							<br />
-							<text v-if="!search.isSearchUser" @tap="logOut" style="color:#FFFFFF6F;position: absolute;right: 10upx;top: 10upx;">注销</text>
-						</view>
-						<scroll-view scroll-y style="height: 100%;">
-							<view class="uni-list" style="margin-top:153upx;">
-								<view class="uni-list-cell" v-for="item in repos" :key="item.trees">
-									<view class="uni-list-cell-navigate" @tap="repoSelect(item)">
-										{{item.name}}
-									</view>
-								</view>
-							</view>
-						</scroll-view>
+						
 				</movable-view>
-			</movable-area>
-		</uni-drawer>
+			</movable-area> -->
+			<view class="drawer-user-avatar">
+				<image :src="userData.avatar_url" mode="aspectFit" class="logoimg"></image>
+				<view class="drawer-user-name">{{userData.name}}</view>
+				<br />
+				<text v-if="!search.isSearchUser" @tap="logOut" style="color:#FFFFFF6F;position: absolute;right: 10upx;top: 10upx;">注销</text>
+			</view>
+			<scroll-view scroll-y style="height: 100%;background: #222222;">
+				<view class="uni-list" style="margin-top:153upx;">
+					<view class="uni-list-cell" v-for="item in repos" :key="item.trees">
+						<view class="uni-list-cell-navigate" @tap="repoSelect(item)">
+							{{item.name}}
+						</view>
+					</view>
+				</view>
+			</scroll-view>
+		</h-dragabledrawer>
 	</scroll-view>
 	</view>
 </template>
@@ -150,7 +151,9 @@
 <script>
 	import uniDrawer from '../../components/uni-drawer.vue'
 	import uniIcon from '../../components/uni-icon.vue'
+	import hDragabledrawer from '../../components/h-dragabledrawer.vue'
 	import util from '../../common/util.js'
+	
 	let authorization = ""
 		uni.getStorage({
 			key: 'Authorization',
@@ -170,16 +173,14 @@
 	export default {
 		components: {
 			uniDrawer,
-			uniIcon
+			uniIcon,
+			hDragabledrawer
 		},
 		data() {
 			return {
 				drawer: {
-					visible: false,
-					x: 0,
-					oldx: 0,
-					disabled: false,
-					needClose: false
+                    visible: false,
+                    rightMode: !isApp
 				},
 				scrollInfo: {
 					eventScrollTop: 0,
@@ -191,7 +192,6 @@
 					key: '',
 					isSearchUser: false
 				},
-				mode: "right",//isApp ? "left" : 
 				userData: {},
 				repos: [],
 				events: [],

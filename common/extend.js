@@ -22,3 +22,41 @@ Array.prototype.orderByDesc = function(param){
 		return 0
 	})
 }
+Array.prototype.select = function(param){
+	var data = []
+	console.info(this)
+	for (let item of this) {
+		data.push(param(item))
+	}
+	return data
+}
+
+String.prototype.endWith = function(end){
+	if(typeof end != "string"){
+		return false
+	}
+	if(end == ""){
+		return true
+	}
+	
+	if(this.indexOf(end) == (this.length - end.length)){
+		return true
+	}else{
+		return false
+	}
+}
+
+String.prototype.startWith = function(start){
+	if(typeof start != "string"){
+		return false
+	}
+	if(start == ""){
+		return true
+	}
+	
+	if(this.indexOf(start) == 0){
+		return true
+	}else{
+		return false
+	}
+}

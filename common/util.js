@@ -94,8 +94,40 @@ function parseQueryString(url) {
     return obj;
 }
 
+function setFileType(data){
+	if(data.type == "tree"){
+		data.type = "folder"
+		return
+	}
+	if(data.type == "commit"){
+		return
+	}
+	
+	let name = data.path
+	if(/^\.[^\.]+$/.test(data.path)){
+		data.type = "binary"
+		return
+	}
+	if(/\.md$/i.test(name)){
+		data.type = "markup"
+		return
+	}
+	if(/\.json$/i.test(name)){
+		data.type = "binary"
+		return
+	}
+	if(/\.(gif|jpg|jpeg|png|svg|bmp)$/i.test(name)){
+		data.type = "media"
+		return
+	}
+	
+	data.type = "file"
+	return
+}
+
 exports.languageToColor = languageToColor
 exports.UTCStrToDate = UTCStrToDate
 exports.UTCStrToDateStr = UTCStrToDateStr
 exports.UTCStrToDescription = UTCStrToDescription
 exports.parseQueryString = parseQueryString
+exports.setFileType = setFileType
