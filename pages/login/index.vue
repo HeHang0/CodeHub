@@ -92,7 +92,6 @@
 			}
 		},
 		mounted() {
-			userName
 			uni.getStorage({
 				key: 'username',
 				success: (res) => {
