@@ -125,9 +125,19 @@ function setFileType(data){
 	return
 }
 
+function getAuthorization(){
+	let authorization = ""
+	try{
+		authorization = uni.getStorageSync('Authorization')
+	}catch(e){
+	}
+	return authorization
+}
+
 exports.languageToColor = languageToColor
 exports.UTCStrToDate = UTCStrToDate
 exports.UTCStrToDateStr = UTCStrToDateStr
 exports.UTCStrToDescription = UTCStrToDescription
 exports.parseQueryString = parseQueryString
 exports.setFileType = setFileType
+exports.getAuthorization = getAuthorization

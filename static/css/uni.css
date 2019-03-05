@@ -1465,3 +1465,11 @@ radio-group label, checkbox-group label{
     left: 0;
     transform: translateY(50%);
 }
+.vertical-center{
+	display: flex;
+	align-items: center;
+}
+.horizontal-center{
+	display: flex;
+	justify-content: center;
+}

@@ -27,7 +27,7 @@
 </template>
 
 <script>
-	import { Base64 } from 'js-base64'
+	import { Base64 } from '../../components/base64/base64.js'
 
 	export default {
 		data() {

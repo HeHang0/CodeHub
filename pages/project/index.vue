@@ -154,13 +154,7 @@
 	import hDragabledrawer from '../../components/h-dragabledrawer.vue'
 	import util from '../../common/util.js'
 	
-	let authorization = ""
-		uni.getStorage({
-			key: 'Authorization',
-			success: (res) => {
-				authorization = res.data
-			}
-		});
+	const authorization = util.getAuthorization()
 	let isApp = false
 	const systemInfo = uni.getSystemInfoSync()
 	let swiperHeight = (systemInfo.windowHeight*0.79+55)+"px"
@@ -213,7 +207,7 @@
 				return
 			}
 			// #endif
-			console.info(page)
+			
 			// #ifndef H5
 			if(page.options && page.options.user) {
 				this.mounteRemote(page.options.user)
@@ -462,7 +456,7 @@
 					data.forEach((item) => {
 						repos.push({
 							name: item.name,
-							trees: item.trees_url.replace("{/sha}", "/master"),//item.clone_url,
+							trees: item.trees_url.replace("{/sha}", "/"+item.default_branch),//item.clone_url,
 							description: item.description,
 							language: item.language,
 							forksCount: item.forks_count,
@@ -471,7 +465,8 @@
 							updatedAtDescription: util.UTCStrToDescription(item.pushed_at),
 							fork: item.fork,
 							color: util.languageToColor(item.language),
-							license: item.license ? item.license.name : ''
+							license: item.license ? item.license.name : '',
+							defaultBrunch: item.default_branch
 						})
 					});
 					this.repos.splice(0, this.repos.length)
@@ -482,14 +477,13 @@
 				let trees = `https://api.github.com/repos/${item.event}/git/trees/master`
 				let title = item.event.substring(item.event.indexOf('/')+1)
 				uni.navigateTo({
-					url: `./repo?trees=${trees}&title=${title}`
+					url: `./repo?trees=${trees}&title=${title}&branch=master`
 				});
 			},
 			repoSelect(item){
-				console.info(item)
 				this.drawer.visible = false
 				uni.navigateTo({
-					url: `./repo?trees=${item.trees}&title=${item.name}`
+					url: `./repo?trees=${item.trees}&title=${item.name}&branch=${item.defaultBrunch}`
 				});
 			},
 			logOut(){

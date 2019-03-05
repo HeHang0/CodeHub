@@ -7,12 +7,11 @@
 </template>
 
 <script>
-	import { Base64 } from 'js-base64'
+	import { Base64 } from '../../components/base64/base64.js'
 	import util from '../../common/util.js'
 	import marked from '../../components/marked'
 	import uParse from '../../components/uParse/src/wxParse.vue'
-	import Towxml from '../../wxcomponents/towxmla/main.js'
-	const towxml = new Towxml
+	const authorization = util.getAuthorization()
 	let contentUrl = ""
 	let isContentMD = false
 	export default {
@@ -67,7 +66,7 @@
 				uni.request({
 					url: contentUrl,
 					header: {
-						'Authorization': "Basic SGVIYW5nMDpoaGQ5NTEwMTI=",
+						'Authorization': authorization,
 					},
 					success: (res) => {
 						if(res && res.data){
@@ -89,20 +88,7 @@
 					content = "# 出错了"
 					isContentMD = true
 				}
-// 				let articleData = towxml.toJson(content,'markdown');
-// 				articleData.theme = 'light';
-// 				if(isContentMD){
-// 					this.article = marked(content)
-// 				}else{
-// 					this.article = content
-// 				}
 				this.article = content
-				console.log(content)
-				// this.article = towxml.md2html("```java\n"+content+"\n```")
-			},
-			escapeHTML(a){
-				a = "" + a;
-				return a.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");;
 			},
 			preview(src, e) {
 				// do something
