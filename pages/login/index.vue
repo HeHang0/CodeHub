@@ -28,7 +28,7 @@
 
 <script>
 	import { Base64 } from '../../components/base64/base64.js'
-
+	import util from '../../common/util.js'
 	export default {
 		data() {
 			return {
