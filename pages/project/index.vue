@@ -195,9 +195,15 @@
 		mounted() {
 			var pages = getCurrentPages();
 			var page = pages[pages.length - 1];
+			let options = null
 			// #ifdef H5
-			let options = util.parseQueryString(page.$el.baseURI)
-			if (options.user){
+			options = util.parseQueryString(page.$el.baseURI)
+			// #endif
+			// #ifndef H5
+			options = page.options
+			// #endif
+			
+			if (options && options.user){
 				this.mounteRemote(options.user)
 				this.search.isSearchUser = true
 			}else if(JSON.stringify(options) == "{}"){
@@ -206,19 +212,6 @@
 				uni.navigateBack({delta:1})
 				return
 			}
-			// #endif
-			
-			// #ifndef H5
-			if(page.options && page.options.user) {
-				this.mounteRemote(page.options.user)
-				this.search.isSearchUser = true
-			}else if(JSON.stringify(page.options) == "{}"){
-				this.mounteLocal()
-			}else{
-				uni.navigateBack({delta:1})
-				return
-			}
-			// #endif
 			
 			// #ifdef H5
 			let headerHeight = document.getElementsByClassName("header")[0].offsetHeight

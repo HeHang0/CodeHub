@@ -29,8 +29,14 @@
 		mounted() {
 			let pages = getCurrentPages();
 			let page = pages[pages.length - 1];
+			let options = null
 			// #ifdef H5
-			let options = util.parseQueryString(page.$el.baseURI)
+			options = util.parseQueryString(page.$el.baseURI)
+			// #endif
+			// #ifndef H5
+			options = page.options
+			// #endif
+			
 			if (options.url && options.title
 				&& options.url.indexOf("http") == 0){
 				contentUrl = options.url
@@ -42,21 +48,6 @@
 				uni.navigateBack({delta:1})
 				return
 			}
-			// #endif
-			
-			// #ifndef H5
-			if(page.options && page.options.url && page.options.title
-				&& page.options.url.indexOf("http") == 0) {
-				contentUrl = page.options.url
-				if(page.options.title.lastIndexOf(".md") == (page.options.title.length - 3)){
-					isContentMD = true
-				}
-				uni.setNavigationBarTitle({title: page.options.title})
-			}else{
-				uni.navigateBack({delta:1})
-				return
-			}
-			// #endif
 			
 			this.getContent()
 		},

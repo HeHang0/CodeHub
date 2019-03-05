@@ -63,6 +63,10 @@
 								data: authorization
 							});
 							uni.setStorage({
+								key: 'username',
+								data: this.login.username
+							});
+							uni.setStorage({
 								key: 'userdata',
 								data: res.data,
 								success: function () {
@@ -88,11 +92,26 @@
 			}
 		},
 		mounted() {
+			userName
+			uni.getStorage({
+				key: 'username',
+				success: (res) => {
+					if(res && res.data){
+						this.login.username = res.data
+					}
+				}
+			});
 			var pages = getCurrentPages();
 			var page = pages[pages.length - 1];
-			if(page.options && page.options.logout) {
+			let options = null
+			// #ifdef H5
+			options = util.parseQueryString(page.$el.baseURI)
+			// #endif
+			// #ifndef H5
+			options = page.options
+			// #endif
+			if(options && options.logout) {
 				this.login.loaded = true
-				uni.clearStorage()
 				return
 			}
 			uni.getStorage({
