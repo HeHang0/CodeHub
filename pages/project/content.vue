@@ -1,13 +1,13 @@
 <template>
 	<view class="uni-padding-wrap" style="width: auto;">
 		<!-- <uParse :content="article" noData="" @preview="preview" @navigate="navigate" /> -->
-		<!-- <towxml :loading="loading" :content="article" style="height: 412rpx;width: 672rpx;"/> -->
 		<textarea v-model="article" maxlength="-1" auto-height="true" style="width: 2000px;overflow-x:auto;"></textarea>
 	</view>
 </template>
 
 <script>
 	import { Base64 } from '../../components/base64/base64.js'
+	import hljs from '../../components/highlight/highlight.js'
 	import util from '../../common/util.js'
 	import marked from '../../components/marked'
 	import uParse from '../../components/uParse/src/wxParse.vue'
@@ -79,7 +79,11 @@
 					content = "# 出错了"
 					isContentMD = true
 				}
-				this.article = content
+				hljs.initHighlighting()
+				console.info(hljs.listLanguages())
+				let a = hljs.highlightAuto(content).value
+				console.log(a)
+				this.article = a
 			},
 			preview(src, e) {
 				// do something
