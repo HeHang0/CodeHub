@@ -1,8 +1,17 @@
 <template>
-	<view class="uni-padding-wrap" style="width: auto;" v-html="article">
-		<!-- <uParse :content="article" noData="" /> -->
+	<view>
 		<!-- <textarea v-model="article" maxlength="-1" auto-height="true" style="width: 2000px;overflow-x:auto;"></textarea> -->
-		<!-- {{article}} -->
+		<!-- <uParse :content="article"/> -->
+		<!-- #ifdef H5 -->
+		<pre>
+			<code v-html="article" class="hljs">
+			</code>
+		</pre>
+		<!-- #endif -->
+		<!-- #ifndef H5 -->
+		<html2wxml :text="article" :highlight="true" :linenums="false">
+		</html2wxml>
+		<!-- #endif -->
 	</view>
 </template>
 
@@ -10,14 +19,10 @@
 	import { Base64 } from '../../components/base64/base64.js'
 	import hljs from '../../components/highlight/lib/index.js'
 	import util from '../../common/util.js'
-	import uParse from '../../components/uParse/src/wxParse.vue'
 	const authorization = util.getAuthorization()
 	let contentUrl = ""
 	let isContentMD = false
 	export default {
-		components: {
-			uParse
-		},
 		data() {
 			return {
 				article: '',
@@ -79,7 +84,14 @@
 					content = "# 出错了"
 					isContentMD = true
 				}
-				this.article = hljs.highlightAuto(content).value
+				// #ifdef H5
+				this.article = `${hljs.highlightAuto(content).value}`
+				// #endif
+				// #ifndef H5
+				this.article = `<pre><code class="hljs">${hljs.highlightAuto(content).value}</code></pre>`
+				// #endif
+				
+					// ${hljs.highlightAuto(content).value}
 			},
 			preview(src, e) {
 				// do something
@@ -103,5 +115,18 @@
 
 <style>
 	/* @import url("../../components/uParse/src/wxParse.css"); */
-	@import url("../../components/highlight/styles/vs2015.css");
+	code, pre {
+		font-family: Consolas,Liberation Mono,Courier,monospace;
+	}
+	/* #ifndef H5 */
+	page {
+		background: #fff;
+	}
+	.html2wxml {
+		padding: 0 !important;
+	}
+	.wxml-pre {
+		border: 0 !important;
+	}
+	/* #endif */
 </style>
