@@ -118,10 +118,10 @@
 	code, pre {
 		font-family: Consolas,Liberation Mono,Courier,monospace;
 	}
-	/* #ifndef H5 */
 	page {
-		background: #fff;
+		background: #fff !important;
 	}
+	/* #ifndef H5 */
 	.html2wxml {
 		padding: 0 !important;
 	}
