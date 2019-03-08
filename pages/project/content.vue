@@ -1,15 +1,15 @@
 <template>
-	<view class="uni-padding-wrap" style="width: auto;">
-		<!-- <uParse :content="article" noData="" @preview="preview" @navigate="navigate" /> -->
-		<textarea v-model="article" maxlength="-1" auto-height="true" style="width: 2000px;overflow-x:auto;"></textarea>
+	<view class="uni-padding-wrap" style="width: auto;" v-html="article">
+		<!-- <uParse :content="article" noData="" /> -->
+		<!-- <textarea v-model="article" maxlength="-1" auto-height="true" style="width: 2000px;overflow-x:auto;"></textarea> -->
+		<!-- {{article}} -->
 	</view>
 </template>
 
 <script>
 	import { Base64 } from '../../components/base64/base64.js'
-	import hljs from '../../components/highlight/highlight.js'
+	import hljs from '../../components/highlight/lib/index.js'
 	import util from '../../common/util.js'
-	import marked from '../../components/marked'
 	import uParse from '../../components/uParse/src/wxParse.vue'
 	const authorization = util.getAuthorization()
 	let contentUrl = ""
@@ -79,11 +79,7 @@
 					content = "# 出错了"
 					isContentMD = true
 				}
-				hljs.initHighlighting()
-				console.info(hljs.listLanguages())
-				let a = hljs.highlightAuto(content).value
-				console.log(a)
-				this.article = a
+				this.article = hljs.highlightAuto(content).value
 			},
 			preview(src, e) {
 				// do something
@@ -106,5 +102,6 @@
 </script>
 
 <style>
-	@import url("../../components/uParse/src/wxParse.css");
+	/* @import url("../../components/uParse/src/wxParse.css"); */
+	@import url("../../components/highlight/styles/vs2015.css");
 </style>
