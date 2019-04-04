@@ -47,12 +47,7 @@
                 "navigationBarTitleText" : "内容",
                 "navigationBarTextStyle" : "white",
                 "navigationBarBackgroundColor" : "#323232",
-                "enablePullDownRefresh" : true,
-                "usingComponents": {
-					//#ifndef H5
-					"html2wxml": "/wxcomponents/html2wxml/html2wxml"
-					//#endif
-                }
+                "enablePullDownRefresh" : true
             }
         }
     ],

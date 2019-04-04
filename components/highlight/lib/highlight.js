@@ -54,6 +54,7 @@ https://highlightjs.org/
     useBR: false,
     languages: undefined
   };
+  var tagFlag = ""
 
 
   /* Utility functions */
@@ -418,11 +419,9 @@ https://highlightjs.org/
 
     function buildSpan(classname, insideSpan, leaveOpen, noPrefix) {
       var classPrefix = noPrefix ? '' : options.classPrefix,
-          openSpan    = '<span class="' + classPrefix,
+          openSpan    = '<span ad="oohoo" class="' + classPrefix,
           closeSpan   = leaveOpen ? '' : spanEndTag;
-
       openSpan += classname + '">';
-
       return openSpan + insideSpan + closeSpan;
     }
 
@@ -616,7 +615,11 @@ https://highlightjs.org/
     detected language, may be absent)
 
   */
-  function highlightAuto(text, languageSubset) {
+  function highlightAuto(text, languageSubset, t) {
+    if(t && t.length > 0){
+        tagFlag = t
+        console.log(t)
+    }
     languageSubset = languageSubset || options.languages || objectKeys(languages);
     var result = {
       relevance: 0,

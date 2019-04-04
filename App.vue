@@ -16,8 +16,8 @@
 	/*每个页面公共css */
 
 	@import "./static/css/uni.css";
-	/*#ifdef H5 */
+    /* #ifdef H5 */
 	@import url("./components/highlight/styles/github-gist.css");
-	/*#endif */
+    /* #endif */
 
 </style>
