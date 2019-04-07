@@ -11,8 +11,10 @@
 <script>
 	import {Base64} from '../../components/base64/base64.js'
 	import hljs from '../../components/highlight/lib/index.js'
+	import hljsStyle from '../../components/highlight/styles/github-gist.js'
 	import util from '../../common/util.js'
 	const authorization = util.getAuthorization()
+    hljs.setHilightStyle(hljsStyle)
 	export default {
 		data() {
 			return {
@@ -90,8 +92,8 @@
 				} else {
 					content = "# 出错了"
 				}
-                console.log(content)
 				this.article = content;
+                console.log(content)
 				uni.stopPullDownRefresh()
 			},
 			formatHtml(html) {
@@ -121,9 +123,6 @@
 </script>
 
 <style>
-    /* #ifndef H5 */
-	@import url("../../components/highlight/styles/github-gist.css");
-    /* #endif */
 	.hljs {
 		font-family: Consolas, Liberation Mono, Courier, monospace;
 	}

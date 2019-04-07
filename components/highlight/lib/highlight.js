@@ -54,8 +54,7 @@ https://highlightjs.org/
     useBR: false,
     languages: undefined
   };
-  var tagFlag = ""
-
+  var hilightStyle = null
 
   /* Utility functions */
 
@@ -419,9 +418,15 @@ https://highlightjs.org/
 
     function buildSpan(classname, insideSpan, leaveOpen, noPrefix) {
       var classPrefix = noPrefix ? '' : options.classPrefix,
-          openSpan    = '<span ad="oohoo" class="' + classPrefix,
+          classAll    = classPrefix+classname,
+          openSpan    = '<span style="',
           closeSpan   = leaveOpen ? '' : spanEndTag;
-      openSpan += classname + '">';
+      var thisStyle   = ''
+      if(classAll.length > 0 && hilightStyle && hilightStyle[classAll]){
+          thisStyle = hilightStyle[classAll]
+      }
+          
+      openSpan += thisStyle + '">';
       return openSpan + insideSpan + closeSpan;
     }
 
@@ -616,10 +621,6 @@ https://highlightjs.org/
 
   */
   function highlightAuto(text, languageSubset, t) {
-    if(t && t.length > 0){
-        tagFlag = t
-        console.log(t)
-    }
     languageSubset = languageSubset || options.languages || objectKeys(languages);
     var result = {
       relevance: 0,
@@ -641,6 +642,10 @@ https://highlightjs.org/
       result.second_best = second_best;
     }
     return result;
+  }
+  
+  function setHilightStyle(styleObj){
+      hilightStyle = styleObj
   }
 
   /*
@@ -773,6 +778,7 @@ https://highlightjs.org/
 
   hljs.highlight = highlight;
   hljs.highlightAuto = highlightAuto;
+  hljs.setHilightStyle = setHilightStyle;
   hljs.fixMarkup = fixMarkup;
   hljs.highlightBlock = highlightBlock;
   hljs.configure = configure;
