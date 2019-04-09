@@ -14,7 +14,7 @@
 	import hljsStyle from '../../components/highlight/styles/github-gist.js'
 	import util from '../../common/util.js'
 	const authorization = util.getAuthorization()
-    hljs.setHilightStyle(hljsStyle)
+	hljs.setHilightStyle(hljsStyle)
 	export default {
 		data() {
 			return {
@@ -93,7 +93,6 @@
 					content = "# 出错了"
 				}
 				this.article = content;
-                console.log(content)
 				uni.stopPullDownRefresh()
 			},
 			formatHtml(html) {
@@ -101,18 +100,6 @@
 				html = html.replace(/    /gi, '<span style="padding-left:2em;"></span>');
 				html = html.replace(/[\t]/gi, '<span style="padding-left:2em;"></span>');
 				return html;
-			},
-			preview(src, e) {
-				// do something
-				console.log("src: " + src);
-			},
-			navigate(href, e) {
-				// 如允许点击超链接跳转，则应该打开一个新页面，并传入href，由新页面内嵌webview组件负责显示该链接内容
-				console.log("href: " + href);
-				uni.showModal({
-					content: "点击链接为：" + href,
-					showCancel: false
-				})
 			}
 		},
 		onPullDownRefresh() {
@@ -125,6 +112,7 @@
 <style>
 	.hljs {
 		font-family: Consolas, Liberation Mono, Courier, monospace;
+        overflow-x: auto;
 	}
 
 	page {
