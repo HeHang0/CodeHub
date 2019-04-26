@@ -17,9 +17,9 @@
 				<view class="loginbtn is-margin15">
 					<button :loading="login.loading" @tap="handlerLogin"> {{ login.loading ? "登录中...":"登 录"}} </button>
 				</view>
-
-				<view class="is-margin15" style="height: 88upx;">
-					
+				
+				<view class="nopwd is-margin15">
+					<text @click="handlerLoginNoPwd">免密码登录</text>
 				</view>
 			</view>
 		</view>
@@ -42,6 +42,11 @@
 			};
 		},
 		methods:{
+			handlerLoginNoPwd: function(){
+				uni.navigateTo({
+					url: '../project/index?user=github'
+				});
+			},
 			handlerLogin:function(){
 				if(this.login.username == "" || 
 					this.login.password == ""){
@@ -215,5 +220,15 @@
 		font-family: inherit;
 		background: #fff;
 		resize: none;
+	}
+	
+	.nopwd{
+		text-align: center;
+		height: 88upx;
+	}
+	.nopwd text{
+		color: gray;
+		text-decoration: underline;
+		cursor: pointer;
 	}
 </style>

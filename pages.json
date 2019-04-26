@@ -33,7 +33,7 @@
             }
         },
         {
-            "path" : "pages/project/repo",
+            "path" : "pages/repo/index",
             "style" : {
                 "navigationBarTitleText" : "分支",
                 "navigationBarTextStyle" : "white",
@@ -42,7 +42,7 @@
             }
         },
         {
-            "path" : "pages/project/content",
+            "path" : "pages/content/index",
             "style" : {
                 "navigationBarTitleText" : "内容",
                 "navigationBarTextStyle" : "white",

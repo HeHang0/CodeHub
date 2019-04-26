@@ -470,13 +470,13 @@
 				let trees = `https://api.github.com/repos/${item.event}/git/trees/master`
 				let title = item.event.substring(item.event.indexOf('/')+1)
 				uni.navigateTo({
-					url: `./repo?trees=${trees}&title=${title}&branch=master`
+					url: `../repo/index?trees=${trees}&title=${title}&branch=master`
 				});
 			},
 			repoSelect(item){
 				this.drawer.visible = false
 				uni.navigateTo({
-					url: `./repo?trees=${item.trees}&title=${item.name}&branch=${item.defaultBrunch}`
+					url: `../repo/index?trees=${item.trees}&title=${item.name}&branch=${item.defaultBrunch}`
 				});
 			},
 			logOut(){

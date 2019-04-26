@@ -118,11 +118,11 @@
 			treeSelect(item){
 				if(item.type == "folder"){
 					uni.navigateTo({
-						url: `./repo?trees=${item.url}&title=${item.path}&branch=${this.branch.defaultBranch}&crumbs=${this.paths}`
+						url: `../repo/index?trees=${item.url}&title=${item.path}&branch=${this.branch.defaultBranch}&crumbs=${this.paths}`
 					});
 				}else if(item.url){
 					uni.navigateTo({
-						url: `./content?url=${item.url}&title=${item.path}`
+						url: `../content/index?url=${item.url}&title=${item.path}`
 					});
 				}else{
 					uni.showToast({title:item.path, icon:'none'})

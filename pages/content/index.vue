@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="hljs">
-			<view style="width: max-content;line-height: 1.4;padding: 0.5em;">
+			<view style="width: max-content;line-height: 1.4;padding: 0.5em;font-size: 0.6rem;">
 				<rich-text type="text" :nodes="article"></rich-text>
 			</view>
 		</view>
@@ -21,7 +21,7 @@
 				article: '',
 				loading: true,
 				contentUrl: "",
-                tagFlag: ""
+				tagFlag: ""
 			}
 		},
 		onLoad() {
@@ -50,12 +50,12 @@
 				return
 			}
 			uni.startPullDownRefresh()
-            // #ifdef H5
-            let cc = document.getElementsByClassName("hljs")
-            if(cc && cc.length > 0){
-                this.tagFlag = cc[0].attributes[0].name
-            }
-            // #endif
+			// #ifdef H5
+			let cc = document.getElementsByClassName("hljs")
+			if(cc && cc.length > 0){
+				this.tagFlag = cc[0].attributes[0].name
+			}
+			// #endif
 		},
 		methods: {
 			getContent() {
@@ -112,7 +112,7 @@
 <style>
 	.hljs {
 		font-family: Consolas, Liberation Mono, Courier, monospace;
-        overflow-x: auto;
+		overflow-x: auto;
 	}
 
 	page {
